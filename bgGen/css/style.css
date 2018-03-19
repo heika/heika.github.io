@@ -1,0 +1,31 @@
+body { color: #401000; font-family: verdana; background-color: #f2efe1; margin: 0px; padding: 0px; text-align: center; border-top: 10px solid #274E82; }
+a { color: #401000; text-decoration: none;}
+/* unvisited link */ a:link { color: #403627;}
+/* visited link */ a:visited { color: #403627;}
+/* mouse over link */ a:hover { color: #999999;}
+/* selected link */ a:active { color: #999999;}
+
+.container { /*width: 100%;*/ text-align: left; }
+.in-container { padding-top: 10px; padding-bottom: 10px; }
+
+header { /* background-color: #274E82; color: #FFFFFF;  padding: 20px 0px; */}
+header h2 {margin:10px 0 0 0; padding: 0px;}
+
+footer { margin: 20px; }
+footer .container { /*width: 100%;*/ text-align: center; }
+
+#opt-pattern .btn { width: 100%;}
+
+/* .picker-color { float: left; width: 200px;}*/
+#preview-area { height: 200px; }
+#cont-download { text-align: center; }
+#cont-download h3 { text-align: left; }
+#cont-download .btn { margin: 40px 20px 20px 20px; padding: 20px; font-size: 140%; font-weight: bold; }
+
+input[name='pattern'] {
+	opacity: 0;
+}
+
+.lblPattern-checked {
+  background-color: #e0e0e0;
+}

@@ -1,0 +1,284 @@
+/* General CSS Setup */
+body{
+	background-color: lightyellow;
+	font-family: "Ubuntu-Italic", "Lucida Sans", helvetica, sans;
+	font-size: 20px;
+	color: #333333;
+	margin: 0;
+	padding: 0;
+}
+section {
+	height: 100vh;
+}
+.bg-cooking {
+	background-image: url(../img/hello2.png);
+}
+.bg-me {
+	background-image: url(../img/hello1.png);
+}
+.bg-code {
+	background-image: url(../img/hello3.png);
+}
+.bg-green {
+	background-color: green;
+}
+.bg-blue {
+	background-color: blue;
+}
+.bg-brown {
+	background-color: brown;
+}
+
+/* main component*/
+/* Chess */
+#chess {
+	margin: 0;
+	height: 100vh;
+	overflow: hidden;
+	font-size: 20px;
+}
+#chess .container {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+.hello {
+	position: absolute;
+	right: 0;
+	left: 0;
+	top: 0;
+	bottom: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top:0;background-color:rgba(255, 255, 255, 0.4);
+
+}
+.steps {
+	padding-top: 33.4vh;
+	width: 100%;
+	float: left;
+	position: relative;
+	opacity: 0.9;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center; 
+}
+/* chatbox */
+#chatbox {
+	background-color: #BD5459;
+	background-image: url(../img/bg4.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center; 
+    height: 100vh;
+
+}
+#chatbox .container {
+	margin-top:0;background-color:rgba(255, 255, 255, 0.1);
+}
+.talk-log {
+	clear:both;
+	display: block;
+	height: 80vh;
+	overflow-y: visible;
+	overflow-x: hidden;
+	padding: 0;
+}
+/* CSS talk bubble */
+.talk-bubble {
+	margin: 20px;
+	display: block;
+	position: relative;
+	width: 260px;
+	height: auto;
+	background-color: #FCFCFC;  
+	clear: both;
+
+	padding: 10px;
+	text-align: left;
+	line-height: 25px;
+}
+.btm-right-in {
+  float: right;
+}
+.round{
+  	border-radius: 7px;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+}
+
+/*Right triangle, placed bottom left side slightly in*/
+.btm-left-in:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: -10px;
+  	right: auto;
+  	top: auto;
+	bottom: 8px;
+	border-style: solid;
+	border-width: 3px 10px 7px 0;
+	border-color: transparent #FCFCFC transparent transparent;
+}
+
+/*Right triangle, placed bottom right side slightly in*/
+.btm-right-in:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  	left: auto;
+	right: -10px;
+	bottom: 8px;
+	border-style: solid;
+	border-width: 3px 0 7px 10px;
+	border-color: transparent transparent transparent #FCFCFC;
+}
+.talk-heika {
+	display: none;
+}
+.talk-input {
+	margin: 0;
+	padding: 0;
+}
+.talk-input textarea {
+	width:	100%;
+	height: 20vh;
+	margin: 0;
+	padding: 0;
+}
+
+/*SKILLS*/
+.skills {
+    background-color: white;
+    height: 30px;
+    width: 0px;
+    opacity: 0.9;
+    float: left;
+}
+#chartList h2{
+	float: left;
+	clear: both;
+}
+#chartList {
+    background-color: #FEFEFE;
+	background-image: url(../img/bg10.png);
+	padding-top: 30px;
+
+}
+#chartList ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+ }
+#chartList ul li span{
+    width: 120px;
+    display: inline-block;
+    float: left;
+    clear: left;
+    height: 40px;
+    text-align: right;
+    padding-right: 20px;
+    line-height: 30px;
+ }
+
+#worksList {
+	width: 100%;
+	background-color: lightyellow;
+	background-image: url(../img/bg3.jpg);
+    background-size: 100%;
+    background-repeat: repeat;
+    background-position: center; 
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+}
+#worksList ul {
+    list-style-type: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+#worksList li {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    display: inline-block;
+    opacity: 0;
+}
+#worksList li img{
+	width: 65%;
+	padding:5px;
+}
+.work-desc {
+	background-color:rgba(255, 255, 255, 0.6);
+	border-radius: 15px;
+}
+.work-title {
+	font-weight: bold;
+	width: 100%;
+}
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000px;
+}
+/* flip the pane when hovered */
+.flip-container:hover .flipper, .flip-container.hover .flipper {
+	transform: rotateY(180deg);
+}
+
+.flip-container, .front, .back {
+	width: 300px;
+	height: 227px;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
+	background-color: #FEFEFE;
+	border-radius: 25px;
+	opacity: 0.8;
+	flex-direction: column;
+	padding: 10px;
+}

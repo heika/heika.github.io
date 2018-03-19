@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Change Colour Tool</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <style id="webmakerstyle">
+        body {
+            color: #401000;
+            font-family: verdana;
+            background-color: #f2efe1;
+            margin: 0px;
+            padding: 0px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        #dimmer {
+            background: #000;
+            opacity: 0.5;
+            position: fixed;
+            /* important to use fixed, not absolute */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 999;
+            /* may not be necessary */
+        }
+
+        #colourSelectZone {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            /* may not be necessary */
+        }
+
+        #colourSelectPanel {
+            background-color: #FFF;
+            border-radius: 10px;
+            padding: 20px;
+            height: 90vh;
+            width: 90vw;
+            overflow-y: auto;
+        }
+
+        #selectedColour {
+            padding-top: 30px;
+        }
+
+        #colourSelectPanel button {
+            margin: 30px 0 10px 0;
+            text-align: center;
+        }
+
+        #colourSelectPanel button:nth-child(2) {
+            margin: 0 0 10px 0;
+            text-align: center;
+            background-color: #FFFFFF;
+            color: #285a3f;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            border: 3px solid;
+        }
+
+        #colourHolder {
+            height: 24px;
+            width: 24px;
+            display: inline-block;
+        }
+
+        #colourSelectCanvas {
+            cursor: crosshair;
+        }
+
+        header {
+            padding: 10px;
+            background-color: #285a3f;
+            margin-bottom: 20px;
+            color: #FFF;
+            text-align: left;
+        }
+
+        #dropZone {
+            width: 100%;
+            height: 150px;
+            border: dashed;
+            background-color: #EEEEEE;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            background-color: #285a3f;
+            border: 0;
+            /* border-radius: 10px; */
+            color: #FFFFFF;
+            padding: 10px 20px;
+            width: 50%;
+            margin: 50px 0;
+        }
+        #originalPicImg, #canvas, #colourSelectCanvas {
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h2 class="title">Change Colour Tool</h2>
+        </div>
+    </header>
+    <section>
+        <div class="container">
+            <div id="dropZone">Drop File Here</div>
+            <div id="processedZone" style="display: none">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <h3>Original Picture</h3>
+                    <div id="originalPic"></div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <h3>Processed Picture</h3>
+                    <canvas id="canvas"></canvas>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <button id="change-colour" onclick="chooseColour()">Wrong Colour?</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="dimmer"></div>
+    <div id="colourSelectZone" onclick="cancel()">
+        <div id="colourSelectPanel" onclick="event.stopPropagation();">
+            <div id="colourSelectImgHolder">
+                <canvas id="colourSelectCanvas" onclick="getColour(event)"></canvas>
+            </div>
+            <div id="selectedColour">
+                Selected Colour:
+                <div id="colourHolder"></div> <span id="colourContent"></span>
+            </div>
+            <div>
+                <button onclick="newColour()">Confirm</button>
+                <button onclick="cancel()">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var drawing;
+        var canvasC, ctxC, pixelcolor, oldColour, tmpOldColour;
+
+        var dropZone = document.getElementById('dropZone');
+
+        dropZone.addEventListener('dragover', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+        });
+
+        dropZone.addEventListener('drop', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var files = e.dataTransfer.files; // Array of all files
+
+            for (var i = 0, file; file = files[i]; i++) {
+                if (file.type.match(/image.*/)) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e2) {
+                        // finished reading file data
+                        var img = document.createElement('img');
+                        img.src = e2.target.result;
+                        img.id = "originalPicImg"
+                        document.getElementById("originalPic").innerHTML = img.outerHTML;
+                        processImage(img.src, true);
+
+                    }
+                    reader.readAsDataURL(file); // start reading the file data.
+                }
+            }
+        });
+
+        function processImage(img, firstTime) {
+            drawing = new Image();
+            drawing.src = img; 
+            drawing.onload = function () {
+                canvas.width = drawing.width;
+                canvas.height = drawing.height;
+
+                ctx.drawImage(drawing, 0, 0);
+
+                var imgd = ctx.getImageData(0, 0, drawing.width, drawing.height);
+                var pix = imgd.data;
+                var newColor = {
+                    r: 0,
+                    g: 0,
+                    b: 0,
+                    a: 0
+                };
+                if (firstTime) {
+                    oldColour = {
+                        r: pix[0],
+                        g: pix[1],
+                        b: pix[2],
+                        a: pix[3]
+                    };
+                }
+
+                if(!pixelcolor)
+                    pixelcolor = "rgba(" + pix[0] + ", " + pix[1] + ", " + pix[2] + ", " + pix[3] + ")";
+
+                for (var i = 0, n = pix.length; i < n; i += 4) {
+                    var r = pix[i],
+                        g = pix[i + 1],
+                        b = pix[i + 2],
+                        a = pix[i + 3];
+                    if (r == oldColour.r && g == oldColour.g && b == oldColour.b && a == oldColour.a) {
+                        // Change to the new color.
+                        pix[i] = newColor.r;
+                        pix[i + 1] = newColor.g;
+                        pix[i + 2] = newColor.b;
+                        pix[i + 3] = newColor.a;
+                    }
+                }
+
+                ctx.putImageData(imgd, 0, 0);
+
+                document.getElementById('processedZone').style.display = "block";
+            };
+        }
+
+        function chooseColour() {
+            dim(true);
+
+            changeColourContent();
+
+            canvasC = document.getElementById("colourSelectCanvas");
+            ctxC = canvasC.getContext("2d");
+
+            canvasC.width = drawing.width;
+            canvasC.height = drawing.height;
+
+            ctxC.drawImage(drawing, 0, 0);
+        }
+
+        function getColour(e) {
+            var doc = document.documentElement;
+            var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+            var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
+            var canvasX = Math.floor(e.pageX - left - canvasC.offsetLeft);
+            var canvasY = Math.floor(e.pageY - top - canvasC.offsetTop);
+
+            var imageData = ctxC.getImageData(0, 0, canvasC.width, canvasC.height);
+            var pix = imageData.data;
+            var pixelRedIndex = ((canvasY - 1) * (imageData.width * 4)) + ((canvasX - 1) * 4);
+
+            tmpOldColour = {
+                r: pix[pixelRedIndex],
+                g: pix[pixelRedIndex + 1],
+                b: pix[pixelRedIndex + 2],
+                a: pix[pixelRedIndex + 3]
+            };
+
+            pixelcolor = "rgba(" + tmpOldColour.r + ", " + tmpOldColour.g + ", " + tmpOldColour.b + ", " + tmpOldColour
+                .a + ")";
+
+            changeColourContent();
+        }
+
+        function dim(bool) {
+            if (typeof bool == 'undefined') bool = true; // so you can shorten dim(true) to dim()
+            document.getElementById('dimmer').style.display = (bool ? 'block' : 'none');
+            document.getElementById('colourSelectZone').style.display = (bool ? 'flex' : 'none');
+        }
+
+        function changeColourContent() {
+            document.getElementById('colourContent').innerHTML = pixelcolor;
+            document.getElementById('colourHolder').style.backgroundColor = pixelcolor;
+        }
+
+        function newColour() {
+            dim(false);
+            oldColour = tmpOldColour;
+            processImage(document.getElementById('originalPicImg').src, false);
+        }
+
+        function cancel() {
+            dim(false);
+
+            pixelcolor = "rgba(" + oldColour.r + ", " + oldColour.g + ", " + oldColour.b + ", " + oldColour.a + ")";
+        }
+    </script>
+</body>
+
+</html>
