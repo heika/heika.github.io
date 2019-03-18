@@ -8,6 +8,10 @@ body{
   align-items: center;
   justify-content: center;
 }
+
+.responsive-menu {
+  display: none;
+}
 header hr {
   margin: 0 0 10px 0;
   border: 0;
@@ -157,7 +161,7 @@ a:hover, .topnav .menu .selected  {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc', GradientType=0 );
 }
 .topnav .menu .selected {
-  padding: 15px 25px 15px 25px;
+  padding: 15px 25px;
 }
 .topnav .menu li {
   float: left;
@@ -167,7 +171,7 @@ a:hover, .topnav .menu .selected  {
   position: relative;
 }
 .topnav .menu li a {
-  padding: 15px 25px 15px 25px;
+  padding: 15px 25px;
   display: block;
 }
 .topnav .menu .selected a {
@@ -242,17 +246,6 @@ footer {
   -webkit-animation: imageAnimation 16s linear infinite 0s;
   -moz-animation: imageAnimation 16s linear infinite 0s;
   animation: imageAnimation 16s linear infinite 0s;
-}
-@media only screen and (min-width: 768px) {
-  .slideshow li h3 {
-    bottom: 30px;
-    font-size: 8.125em;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  .slideshow li h3 {
-    font-size: 10.9375em;
-  }
 }
 
 .slideshow li:nth-child(1) span {
@@ -505,6 +498,9 @@ a .product-type:hover {
   text-align: center;
   width: 100%;
   font-size: 20px;
+}
+.index-product-menu .product-title {
+  
 }
 .bd-information-menu .product-title {
   position: absolute;
@@ -760,4 +756,130 @@ a.button-link, .button-link {
   background-color: #4f9ddc;
   color: #FEFEFE;
   font-size: 18px;
+}
+
+@media only screen and (min-width: 768px) {
+  .slideshow li h3 {
+    bottom: 30px;
+    font-size: 8.125em;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .slideshow li h3 {
+    font-size: 10.9375em;
+  }
+}
+
+
+@media only screen and (max-width: 1200px) {
+  .topnav .menu .selected {
+    padding: 15px 15px;
+  }
+  .topnav .menu li a {
+    padding: 15px 15px;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .topnav .menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    margin: 0;
+    width: 100%;
+    background-color: rgba(255,255,255,1);
+    border: 1px solid #EEE;
+  }
+  .topnav .menu li sup {
+    display: inline-block;
+    position: static;
+  }
+  .topnav .menu.show {
+    display: block;
+  }
+  .topnav .menu li {
+    float: none;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 2px solid #EEE;
+  }
+  .topnav .menu li a {
+    padding: 15px 3px;
+    display: inline-block;
+  }
+  .responsive-menu {
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+  }
+  .responsive-menu button {
+    background-color: rgba(255,255,255,0);
+    border: none;
+    box-shadow: none;
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 24px;
+    color: #555;
+  }
+  .responsive-menu .cross {
+    display: none;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .left-content, .right-content, footer .detail-information, .fb-plugin {
+    width: 100%;
+    float: none;
+  }
+  .range-menu ul li {
+    width: 50%;
+  }
+  .product-container .product-type.four {
+    width: 50%;
+  }
+  .product-type.four {
+    width: 50%;
+  }
+  .product-type.two {
+    width: 95%;
+  }
+}
+@media only screen and (max-width: 500px) {
+  header .lang-selector {
+    right: 0;
+    top: 10px;
+  }
+  .range-menu ul li, .product-type, .upside-down .product-type {
+    width: 100%;
+  }
+  .shop-map .shop {
+    display: flex;
+    flex-direction: column;
+    width:auto;
+    height: auto;
+    padding: 0;
+  }
+  .shop-map .shop:nth-child(even) {
+    flex-direction: column-reverse;
+  }
+  .shop-map .shop .element {
+    padding: 0;
+  }
+  .welcome-text .element, .shop .element {
+    display: block;
+    padding: 5px 10px;
+    width: auto;
+  }
+  .welcome-text .photo {
+    display: none;
+  }
+  .product-type.four {
+    width: 100%;
+  }
+  .product-container .product-type.four {
+    width: 70%;
+    margin-left: 5%;
+  }
+  footer .detail-information {
+    padding: 5px;
+  }
 }
