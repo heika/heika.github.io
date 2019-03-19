@@ -787,6 +787,9 @@ a.button-link, .button-link {
   .topnav .menu li a {
     padding: 15px 15px;
   }
+  .container {
+    box-shadow: none;
+  }
 }
 @media only screen and (max-width: 1000px) {
   .topnav .menu {
@@ -800,7 +803,7 @@ a.button-link, .button-link {
   }
   .topnav .menu li sup {
     display: inline-block;
-    position: static;
+    position: absolute;
   }
   .topnav .menu.show {
     display: block;
@@ -813,6 +816,12 @@ a.button-link, .button-link {
   .topnav .menu li a {
     padding: 15px 3px;
     display: inline-block;
+    width: 100%;
+  }
+  .topnav .menu li sup{
+    top: 5px;
+    left: 110px;
+    right: 0;
   }
   .responsive-menu {
     display: block;
@@ -856,6 +865,10 @@ a.button-link, .button-link {
   header .lang-selector {
     right: 0;
     top: 10px;
+  }
+  .topnav .logo {
+    max-width: 80%;
+    background-size: 95%;
   }
   .slideshow {
     height: 300px;
